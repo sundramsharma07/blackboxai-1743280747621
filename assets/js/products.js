@@ -1,3 +1,4 @@
+console.log('products.js loaded successfully');
 // Seller Products Management for BuildMart
 
 // DOM Elements
@@ -203,7 +204,8 @@ function handleProductSubmit(e) {
     // Create product object
     const product = {
         name: productData.productName,
-        category: productData.productCategory,
+        type: productData.productType,
+        measurement: productData.productMeasurement,
         description: productData.productDescription || '',
         price: productData.price,
         stock: productData.stock,
