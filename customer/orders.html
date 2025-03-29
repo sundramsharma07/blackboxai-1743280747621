@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - BuildMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar and Main Content Wrapper -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-blue-800 text-white p-4">
+            <div class="flex items-center space-x-2 mb-8">
+                <i class="fas fa-user text-2xl"></i>
+                <h1 class="text-xl font-bold" id="customerName">Customer</h1>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-boxes"></i>
+                    <span>Browse Products</span>
+                </a>
+                <a href="cart.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>My Cart</span>
+                </a>
+                <a href="orders.html" class="flex items-center space-x-2 px-3 py-2 bg-blue-700 rounded-md">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>My Orders</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="mt-auto pt-4 border-t border-blue-700">
+                <button id="logoutBtn" class="w-full flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">My Orders</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <a href="cart.html" class="flex items-center">
+                            <i class="fas fa-shopping-cart text-gray-500"></i>
+                            <span id="cartCount" class="ml-1">0</span>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span id="customerNameHeader">John Doe</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Orders Content -->
+            <main class="p-6">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold">Order History</h3>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="ordersTable">
+                                <!-- Orders will be loaded here -->
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No orders found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold" id="orderModalTitle">Order Details</h3>
+                <button id="closeOrderModalBtn" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-medium text-gray-700">Order ID</h4>
+                        <p id="modalOrderId" class="text-gray-900"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-700">Order Date</h4>
+                        <p id="modalOrderDate" class="text-gray-900"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-700">Status</h4>
+                        <p id="modalOrderStatus" class="text-gray-900"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-700">Shipping Address</h4>
+                        <p id="modalShippingAddress" class="text-gray-900"></p>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Order Items</h4>
+                    <div class="space-y-4" id="modalOrderItems">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Subtotal</span>
+                        <span id="modalSubtotal" class="text-gray-900"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Shipping</span>
+                        <span id="modalShipping" class="text-gray-900"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Tax</span>
+                        <span id="modalTax" class="text-gray-900"></span>
+                    </div>
+                    <div class="flex justify-between border-t border-gray-200 pt-2 mt-2">
+                        <span class="font-semibold">Total</span>
+                        <span id="modalTotal" class="font-semibold"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/customer.js"></script>
+    <script src="../assets/js/orders.js"></script>
+</body>
+</html>
