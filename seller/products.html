@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - BuildMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar and Main Content Wrapper -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-blue-800 text-white p-4">
+            <div class="flex items-center space-x-2 mb-8">
+                <i class="fas fa-store text-2xl"></i>
+                <h1 class="text-xl font-bold" id="storeName">My Store</h1>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="flex items-center space-x-2 px-3 py-2 bg-blue-700 rounded-md">
+                    <i class="fas fa-boxes"></i>
+                    <span>Products</span>
+                </a>
+                <a href="orders.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="analytics.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="mt-auto pt-4 border-t border-blue-700">
+                <button id="logoutBtn" class="w-full flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Manage Products</h2>
+                <button id="addProductBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>Add Product
+                </button>
+            </header>
+            
+            <!-- Products Content -->
+            <main class="p-6">
+                <!-- Product Categories -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Product Categories</h3>
+                    <div class="flex space-x-2 overflow-x-auto pb-2">
+                        <button class="category-btn px-4 py-2 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">All</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Cement</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Steel Rods</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Sand</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Bricks</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Stone Chips</button>
+                        <button class="category-btn px-4 py-2 bg-gray-200 rounded-full text-sm whitespace-nowrap">Tiles</button>
+                    </div>
+                </div>
+                
+                <!-- Products Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="productsTable">
+                                <!-- Products will be loaded here -->
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No products added yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold" id="modalTitle">Add New Product</h3>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="productForm" class="space-y-4">
+                <input type="hidden" id="productId">
+                
+                <div>
+                    <label for="productName" class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="productName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label for="productCategory" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="productCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select Category</option>
+                        <option value="Cement">Cement</option>
+                        <option value="Steel Rods">Steel Rods</option>
+                        <option value="Sand">Sand</option>
+                        <option value="Bricks">Bricks</option>
+                        <option value="Stone Chips">Stone Chips</option>
+                        <option value="Tiles">Tiles</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="productDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea id="productDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="productPrice" class="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+                        <input type="number" id="productPrice" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="productStock" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                        <input type="number" id="productStock" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="productImage" class="block text-sm font-medium text-gray-700 mb-1">Product Image URL</label>
+                    <input type="text" id="productImage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/seller.js"></script>
+    <script src="../assets/js/products.js"></script>
+</body>
+</html>
