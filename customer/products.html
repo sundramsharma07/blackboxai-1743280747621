@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - BuildMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar and Main Content Wrapper -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-blue-800 text-white p-4">
+            <div class="flex items-center space-x-2 mb-8">
+                <i class="fas fa-user text-2xl"></i>
+                <h1 class="text-xl font-bold" id="customerName">Customer</h1>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="flex items-center space-x-2 px-3 py-2 bg-blue-700 rounded-md">
+                    <i class="fas fa-boxes"></i>
+                    <span>Browse Products</span>
+                </a>
+                <a href="cart.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>My Cart</span>
+                </a>
+                <a href="orders.html" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>My Orders</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="mt-auto pt-4 border-t border-blue-700">
+                <button id="logoutBtn" class="w-full flex items-center space-x-2 px-3 py-2 hover:bg-blue-700 rounded-md">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Browse Products</h2>
+                <div class="flex items-center space-x-4">
+                    <a href="cart.html" class="flex items-center">
+                        <i class="fas fa-shopping-cart text-gray-500"></i>
+                        <span id="cartCount" class="ml-1">0</span>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+                    </a>
+                    <div class="flex items-center space-x-2">
+                        <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span id="customerNameHeader">John Doe</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Products Content -->
+            <main class="p-6">
+                <!-- Search and Filters -->
+                <div class="bg-white p-4 rounded-lg shadow mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                        <div class="relative flex-1 max-w-md">
+                            <input type="text" id="searchInput" placeholder="Search products..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <select id="categoryFilter" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">All Categories</option>
+                                <option value="Cement">Cement</option>
+                                <option value="Steel Rods">Steel Rods</option>
+                                <option value="Sand">Sand</option>
+                                <option value="Bricks">Bricks</option>
+                                <option value="Stone Chips">Stone Chips</option>
+                                <option value="Tiles">Tiles</option>
+                            </select>
+                            
+                            <select id="sortBy" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="default">Sort By</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                    <div class="bg-white p-4 rounded-lg shadow text-center">
+                        <p class="text-gray-500">Loading products...</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../assets/js/customer.js"></script>
+    <script src="../assets/js/products-customer.js"></script>
+</body>
+</html>
